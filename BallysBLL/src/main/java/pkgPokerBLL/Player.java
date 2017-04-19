@@ -6,6 +6,12 @@ import java.util.UUID;
 public class Player implements Serializable {
 
 	private UUID PlayerID;
+	public void setPlayerID(UUID playerID) {
+		PlayerID = playerID;
+	}
+	public void setPlayerName(String playerName) {
+		PlayerName = playerName;
+	}
 	private String PlayerName;
 	private int iPlayerPosition;
 	private int iPokerClientID;

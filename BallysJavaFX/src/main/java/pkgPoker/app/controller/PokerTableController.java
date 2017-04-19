@@ -27,6 +27,8 @@ import pkgPokerEnum.eGame;
 import pkgPokerBLL.Action;
 import pkgPokerBLL.GamePlay;
 import pkgPokerBLL.Table;
+import pkgPokerBLL.Player;
+
 
 public class PokerTableController implements Initializable {
 
@@ -104,8 +106,40 @@ public class PokerTableController implements Initializable {
 	//TODO: Lab #4 - Complete (fix) setiPlayerPosition
 	public void btnSitLeave_Click(ActionEvent event) {
 
-		// Set the PlayerPosition in the Player
-		mainApp.getPlayer().setiPlayerPosition(1);
+		ToggleButton button = (ToggleButton)event.getSource(); //Taken from JavaFX methods
+		Action a; //default action, will be assigned later in the loops
+		
+		if (button.getId().equals("btnPos1SitLeave"))
+		{
+			 if (mainApp.getPlayer().getiPlayerPosition()==1)
+			 {
+				 mainApp.getPlayer().setiPlayerPosition(0);
+				 a = new Action(eAction.Leave, mainApp.getPlayer());
+			 }
+			 else
+			 {
+				 mainApp.getPlayer().setiPlayerPosition(1);
+				 a = new Action(eAction.Sit, mainApp.getPlayer());
+			 }
+			
+		}
+		
+		else if (button.getId().equals("btnPos2SitLeave"))
+		{
+			if (mainApp.getPlayer().getiPlayerPosition()==2)
+			{
+				mainApp.getPlayer().setiPlayerPosition(0);
+				a = new Action(eAction.Leave, mainApp.getPlayer());
+			}
+			else
+			{
+				mainApp.getPlayer().setiPlayerPosition(2);
+				a = new Action(eAction.Sit, mainApp.getPlayer());
+			}
+			
+		}
+		
+		
 
 		// Build an Action message
 		Action act = new Action(eAction.Sit, mainApp.getPlayer());
@@ -156,8 +190,68 @@ public class PokerTableController implements Initializable {
 	}
 
 	//TODO: Lab #4 Complete the implementation
-	public void Handle_TableState(Table HubPokerTable) {
-
+	public void Handle_TableState(Table HubPokerTable) 
+	{
+		int PlayerCount = -1;
+		for(Player person : HubPokerTable.getTablePlayers().values())
+		{
+			PlayerCount++;
+		}
+		
+		if (PlayerCount == 0);
+		{
+			Player SamplePlayer = HubPokerTable.getTablePlayers().get(0);
+			if (SamplePlayer.getiPlayerPosition() == 1)
+			{
+				lblPlayerPos2.setText("Player 2");
+				btnPos2SitLeave.setText("Sit");
+				btnPos2SitLeave.setSelected(false);
+				btnPos2SitLeave.setVisible(false);
+				btnPos1SitLeave.setText("Leave");
+				btnPos1SitLeave.setSelected(true);
+				btnPos1SitLeave.setVisible(true);
+				lblPlayerPos1.setText(SamplePlayer.getPlayerName());
+			}
+			else {
+				lblPlayerPos2.setText(SamplePlayer.getPlayerName());
+				btnPos2SitLeave.setText("Leave");
+				btnPos2SitLeave.setSelected(true);
+				btnPos2SitLeave.setVisible(true);	
+				lblPlayerPos1.setText("Player 1");
+				btnPos1SitLeave.setText("Sit");
+				btnPos1SitLeave.setSelected(false);
+				btnPos1SitLeave.setVisible(false);
+			}
+		}
+		
+		if (PlayerCount == 2){
+			Player SamplePlayer1 = HubPokerTable.getTablePlayers().get(0); //With 2 players both need variables...
+			Player SamplePlayer2 = HubPokerTable.getTablePlayers().get(1);
+			if (SamplePlayer1.getiPlayerPosition() == 1){
+				lblPlayerPos2.setText(SamplePlayer2.getPlayerName());
+				btnPos2SitLeave.setText("Leave");
+				btnPos2SitLeave.setSelected(true);
+				btnPos2SitLeave.setVisible(true);	
+				lblPlayerPos1.setText(SamplePlayer1.getPlayerName()); //Both players need labels!
+				btnPos1SitLeave.setText("Leave");
+				btnPos1SitLeave.setSelected(true);
+				btnPos1SitLeave.setVisible(true);
+			}
+			
+			else{
+				lblPlayerPos2.setText(SamplePlayer1.getPlayerName());
+				btnPos2SitLeave.setText("Leave");
+				btnPos2SitLeave.setSelected(true);
+				btnPos2SitLeave.setVisible(true);
+				lblPlayerPos1.setText(SamplePlayer2.getPlayerName());
+				btnPos1SitLeave.setText("Leave");
+				btnPos1SitLeave.setSelected(true);
+				btnPos1SitLeave.setVisible(true);
+			}
+			
+			btnStartGame.setVisible(true);
+			
+		}
 	}
 
 	public void Handle_GameState(GamePlay HubPokerGame) {

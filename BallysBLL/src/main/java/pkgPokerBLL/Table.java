@@ -2,14 +2,31 @@ package pkgPokerBLL;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.UUID;
 
 public class Table implements Serializable {
 
 	private UUID TableID;
 
+	public UUID getTableID() {
+		return TableID;
+	}
+
+	public void setTableID(UUID tableID) {
+		TableID = tableID;
+	}
+
+	public HashMap<UUID, Player> getTablePlayers() {
+		return TablePlayers;
+	}
+
+	public void setTablePlayers(HashMap<UUID, Player> tablePlayers) {
+		TablePlayers = tablePlayers;
+	}
+
 	// Change this from ArrayList to HashMap.
-	private ArrayList<Player> TablePlayers = new ArrayList<Player>();
+	private HashMap<UUID, Player> TablePlayers = new HashMap<UUID, Player>();
 
 	public Table() {
 		super();
@@ -17,12 +34,12 @@ public class Table implements Serializable {
 	}
 
 	public Table AddPlayerToTable(Player p) {
-		// TODO: Lab #4 Add a player to the table (should be pretty easy)
+		TablePlayers.put(p.getPlayerID(), p);
 		return this;
 	}
 
 	public Table RemovePlayerFromTable(Player p) {
-		// TODO: Lab #4 Remove a player from the table
+		TablePlayers.remove(p.getPlayerID());
 		return this;
 	}
 }

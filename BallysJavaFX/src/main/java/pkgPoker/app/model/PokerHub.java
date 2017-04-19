@@ -22,7 +22,7 @@ import pkgPokerBLL.Table;
 import pkgPokerEnum.eAction;
 import pkgPokerEnum.eCardDestination;
 import pkgPokerEnum.eDrawCount;
-import pokerEnums.eGame;
+import pkgPokerEnum.eGame;
 import pkgPokerEnum.eGameState;
 
 public class PokerHub extends Hub {
@@ -53,13 +53,13 @@ public class PokerHub extends Hub {
 			Action act = (Action) message;
 			switch (act.getAction()) {
 			case Sit:
-				//TODO: Lab #4 
+				HubPokerTable.AddPlayerToTable(actPlayer);
 				//	Sit player at the table				
 				resetOutput();
 				sendToAll(HubPokerTable);
 				break;
 			case Leave:
-				//TODO: Lab #4 
+				HubPokerTable.RemovePlayerFromTable(actPlayer);
 				//	Remove player from the table
 				resetOutput();
 				sendToAll(HubPokerTable);
